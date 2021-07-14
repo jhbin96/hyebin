@@ -1,8 +1,11 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
 
 from accountapp.models import NewModel
 
@@ -12,14 +15,22 @@ def hello_world(request):
 
         temp = request.POST.get('input_text')
 
-        model_instance = NewModel() #import
+        model_instance = NewModel()  # import
         model_instance.text = temp
         model_instance.save()
 
-        return HttpResponseRedirect(reverse('accountapp:hello_world')) #reverse alt+enter해서 import-장고
+        return HttpResponseRedirect(reverse('accountapp:hello_world'))  # reverse alt+enter해서 import-장고
 
     else:
         data_list = NewModel.objects.all()
         return render(request, 'accountapp/hello_world.html',
-                        context = {'data_list': data_list})
+                      context={'data_list': data_list})
+
+
+
+class AccountCreateView(CreateView):  # import(alt+enter)
+    model = User  # import
+    form_class = UserCreationForm  # import
+    success_url = reverse_lazy('accountapp:hello_world')  # reverse_lazy import
+    template_name = 'accountapp/create.html'                #회원가입 로직완성
 

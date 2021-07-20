@@ -35,7 +35,7 @@ class AccountCreateView(CreateView):  # import(alt+enter)
     template_name = 'accountapp/create.html'                #회원가입 로직완성
 
 
-class AccountDetailView(DetailView) #import
+class AccountDetailView(DetailView): #import
     model = User
     context_object_name = 'target_user'
     template_name = 'accountapp/detail.html'

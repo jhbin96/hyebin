@@ -11,10 +11,8 @@ urlpatterns = [
          name = 'login'),
     path('logout/', LogoutView.as_view(), name= 'logout'),      #import
 
-    path('create/', AccountCreateView.as_view(), name= 'create')        # AccountCreateView import(연결 라우팅)
+    path('create/', AccountCreateView.as_view(), name= 'create'),        # AccountCreateView import(연결 라우팅)
     path('detail/<int:pk>', AccountDetailView.as_view(), name= 'detail')        # import
-
-
 ]
 
 

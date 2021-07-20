@@ -6,7 +6,7 @@
     <div class="pragmatic_header_botton">
             <span>nav1</span>
             <span>nav1</span>
-            {% if not user.is_authenticated %}  #로그인 되어있지 않을 경우
+            {% if not user.is_authenticated %}
             <span>
                 <a href="{% url 'accountapp:login' %}">
                     Login

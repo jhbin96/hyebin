@@ -9,6 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
+from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountCreationForm
 from accountapp.models import NewModel
 
@@ -43,8 +44,12 @@ class AccountDetailView(DetailView): #import
     context_object_name = 'target_user'
     template_name = 'accountapp/detail.html'
 
-@method_decorator(login_required, 'get')    #import
-@method_decorator(login_required, 'post')
+
+has_ownership = [login_required, account_ownership_required]
+
+
+@method_decorator(has_ownership, 'get')    #import
+@method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView):          # 로직만들기, import하기
     model = User
     form_class = AccountCreationForm    #import
@@ -53,8 +58,8 @@ class AccountUpdateView(UpdateView):          # 로직만들기, import하기
     template_name = 'accountapp/update.html'
 
 
-@method_decorator(login_required, 'get')    #import
-@method_decorator(login_required, 'post')
+@method_decorator(has_ownership, 'get')    #import
+@method_decorator(has_ownership, 'post')
 class AccountDeleteView(DeleteView): #import
     model = User
     context_object_name = 'target_user'

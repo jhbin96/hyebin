@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
     <div class="text-center mw-500 m-auto">
@@ -8,11 +7,20 @@
                 <img src="{{ target_user.profile.image.url }}"
                      class="profile_image m-4"
                      alt="profile image">
-                <h2 class="NNS_B"> {{ target_user.profile.nickname }} </h2>
+                <h2 class="NNS_B">
+                    {{ target_user.profile.nickname }}
+                    <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
+                    </a>
+                        {% if target_user == user %}
+                            <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
+                                edit
+                            </a>
+                        {% endif %}
+                </h2>
                 <h5>{{ target_user.profile.message }}</h5>
             {% else %}
             <h2>
-                <a href="{% url 'profileapp: create' %}">
+                <a href="{% url 'profileapp:create' %}">
                     Create Profile
                 </a>
             </h2>
@@ -21,9 +29,7 @@
         <div>
             {{ target_user.date_joined }}
         </div>
-
         {% if user == target_user %}
-            
         <div>
             <a href="{% url 'accountapp:update' pk=target_user.pk %}">
                 Update Info
@@ -36,5 +42,4 @@
         </div>
         {% endif %}
     </div>
-
 {% endblock %}

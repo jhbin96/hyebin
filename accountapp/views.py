@@ -48,15 +48,17 @@ class AccountDetailView(DetailView): #import
 has_ownership = [login_required, account_ownership_required]
 
 
+
 @method_decorator(has_ownership, 'get')    #import
 @method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView):          # 로직만들기, import하기
     model = User
     form_class = AccountCreationForm    #import
     context_object_name = 'target_user'
-    success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/update.html'
 
+    def get_success_url(self):
+        return reverse('accountapp:detail', kwargs={'pk': self.object.pk})
 
 @method_decorator(has_ownership, 'get')    #import
 @method_decorator(has_ownership, 'post')

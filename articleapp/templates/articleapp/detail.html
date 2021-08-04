@@ -13,6 +13,16 @@
             {#  게시글 대표이미지, 글 내용 #}
             <img src="{{ target_article.image.url }}" alt="">
             {{ target_article.content }}
+            <div>
+                <a href="{% url 'articleapp:update' pk=target_article.pk %}"
+                    class="btn btn-success rounded-pill px-5">
+                    Update
+                </a>
+                <a href="{% url 'articleapp:delete' pk=target_article.pk %}"
+                    class="btn btn-danger rounded-pill px-5">
+                    Delete
+                </a>
+            </div>
         </div>
 
     </div>

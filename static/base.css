@@ -2,14 +2,18 @@
     margin: 2rem 0;
     font-family: 'Pacifico', cursive;
 }
-.pragmatic_header_botton {
+
+.pragmatic_header_button {
     margin-bottom: 2rem;
 }
-.pragmatic_footer_logo{
-    margin: 1.5rem 0;font-family: 'Pacifico', cursive;
+
+.pragmatic_footer_logo {
+    margin: 1.5rem 0;
+    font-family: 'Pacifico', cursive;
 }
+
 .pragmatic_footer_button {
-    margin-top: 1.5rem;
+    margin-top: 1.5rem
 }
 
 .mw-500 {
@@ -45,10 +49,17 @@
     font-size: 1.1rem;
 }
 
-
-
 .article_image {
     border-radius: 2rem;
     width: 60%;
     box-shadow: 0 0 1rem #bcbcbc;
+}
+
+.comment_box {
+    text-align: left;
+    border: solid;
+    border-color: #dfdfdf;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem;
 }

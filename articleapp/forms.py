@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from articleapp.models import Article
 
 
-class ArticleCreationForm(ModelForm): #ModelForm import
+class ArticleCreationForm(ModelForm):
     class Meta:
-        model = Article #Article import
-        fields = ['title', 'image', 'content']
+        model = Article
+        fields = ['title', 'image', 'project', 'content']

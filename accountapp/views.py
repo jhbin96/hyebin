@@ -8,61 +8,67 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
 from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountCreationForm
 from accountapp.models import NewModel
+from articleapp.models import Article
 
-@login_required    #@login_required를 import
+
+@login_required
 def hello_world(request):
-
     if request.method == "POST":
         temp = request.POST.get('input_text')
 
-        model_instance = NewModel()  # import
+        model_instance = NewModel()
         model_instance.text = temp
         model_instance.save()
 
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))  # reverse alt+enter해서 import-장고
-
+        return HttpResponseRedirect(reverse('accountapp:hello_world'))
     else:
         data_list = NewModel.objects.all()
         return render(request, 'accountapp/hello_world.html',
-                        context={'data_list': data_list})
+                      context={'data_list': data_list})
 
 
+class AccountCreateView(CreateView):
+    model = User
+    form_class = UserCreationForm
+    success_url = reverse_lazy('accountapp:hello_world')
+    template_name = 'accountapp/create.html'
 
-class AccountCreateView(CreateView):  # import(alt+enter)
-    model = User  # import
-    form_class = UserCreationForm  # import
-    success_url = reverse_lazy('accountapp:hello_world')  # reverse_lazy import
-    template_name = 'accountapp/create.html'                #회원가입 로직완성
 
-
-class AccountDetailView(DetailView): #import
+class AccountDetailView(DetailView, MultipleObjectMixin):
     model = User
     context_object_name = 'target_user'
     template_name = 'accountapp/detail.html'
+
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        article_list = Article.objects.filter(writer=self.object)
+        return super().get_context_data(object_list=article_list, **kwargs)
 
 
 has_ownership = [login_required, account_ownership_required]
 
 
-
-@method_decorator(has_ownership, 'get')    #import
+@method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')
-class AccountUpdateView(UpdateView):          # 로직만들기, import하기
+class AccountUpdateView(UpdateView):
     model = User
-    form_class = AccountCreationForm    #import
+    form_class = AccountCreationForm
     context_object_name = 'target_user'
     template_name = 'accountapp/update.html'
 
     def get_success_url(self):
         return reverse('accountapp:detail', kwargs={'pk': self.object.pk})
 
-@method_decorator(has_ownership, 'get')    #import
+
+@method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')
-class AccountDeleteView(DeleteView): #import
+class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:hello_world')
